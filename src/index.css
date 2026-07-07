@@ -14,6 +14,257 @@
 body {
   margin: 0;
   min-width: 320px;
+  background: #f5f5f4;
+}
+
+.app-shell {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(250, 204, 21, 0.16), transparent 26%),
+    linear-gradient(165deg, transparent 0 45%, rgba(24, 24, 27, 0.06) 45% 46%, transparent 46% 100%),
+    linear-gradient(180deg, #fafaf9 0%, #f4f4f5 48%, #fef3c7 100%);
+}
+
+.app-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(24, 24, 27, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(24, 24, 27, 0.035) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.72), transparent 72%);
+}
+
+.app-shell > div {
+  position: relative;
+  z-index: 1;
+}
+
+.app-sidebar {
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(18px);
+  box-shadow: 18px 0 44px rgba(24, 24, 27, 0.06);
+}
+
+.app-sidebar nav a {
+  box-shadow: inset 0 0 0 1px transparent;
+}
+
+.app-sidebar nav a:hover {
+  box-shadow:
+    inset 0 0 0 1px rgba(250, 204, 21, 0.5),
+    0 10px 22px rgba(24, 24, 27, 0.08);
+}
+
+.app-header {
+  border: 1px solid rgba(228, 228, 231, 0.72);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.54);
+  padding: 18px;
+  backdrop-filter: blur(18px);
+  box-shadow: 0 18px 48px rgba(24, 24, 27, 0.08);
+}
+
+.app-shell section.rounded-lg {
+  border-color: rgba(228, 228, 231, 0.82);
+  background-color: rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(14px);
+  box-shadow:
+    0 18px 45px rgba(24, 24, 27, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease;
+}
+
+.app-shell section.rounded-lg:hover {
+  transform: translateY(-2px);
+  border-color: rgba(250, 204, 21, 0.52);
+  box-shadow:
+    0 24px 55px rgba(24, 24, 27, 0.11),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.app-shell button,
+.app-shell a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.app-shell button {
+  transition:
+    transform 160ms ease,
+    background-color 160ms ease,
+    box-shadow 160ms ease,
+    color 160ms ease;
+}
+
+.app-shell button:hover {
+  transform: translateY(-1px);
+}
+
+.app-shell input {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.62);
+}
+
+.mascot-score-card {
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 16px 32px rgba(24, 24, 27, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.mascot-score-card::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(circle, rgba(250, 204, 21, 0.28), transparent 58%);
+  transform: translateX(-20%);
+}
+
+.mascot-mini {
+  position: relative;
+  z-index: 1;
+  box-shadow:
+    0 0 0 2px rgba(250, 204, 21, 0.45),
+    0 10px 24px rgba(0, 0, 0, 0.18);
+  animation: mascot-breathe 3.4s ease-in-out infinite;
+}
+
+.mascot-score-card > div {
+  position: relative;
+  z-index: 1;
+}
+
+.mascot-orb {
+  position: relative;
+  padding: 5px;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, rgba(250, 204, 21, 0.42), rgba(255, 255, 255, 0.5));
+  box-shadow: 0 12px 26px rgba(245, 158, 11, 0.22);
+}
+
+.mascot-orb::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(250, 204, 21, 0.24), transparent 68%);
+  animation: mascot-glow 3.8s ease-in-out infinite;
+}
+
+.mascot-orb img {
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.76);
+}
+
+.app-dark {
+  color-scheme: dark;
+  background:
+    linear-gradient(135deg, rgba(250, 204, 21, 0.12), transparent 26%),
+    linear-gradient(165deg, transparent 0 45%, rgba(250, 250, 250, 0.06) 45% 46%, transparent 46% 100%),
+    linear-gradient(180deg, #09090b 0%, #18181b 58%, #292524 100%);
+  color: #f4f4f5;
+}
+
+.app-dark::before {
+  background-image:
+    linear-gradient(rgba(250, 250, 250, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(250, 250, 250, 0.045) 1px, transparent 1px);
+}
+
+.app-dark .app-sidebar,
+.app-dark .app-header {
+  background: rgba(24, 24, 27, 0.72);
+  border-color: #3f3f46;
+}
+
+.app-dark .app-sidebar nav a:hover {
+  box-shadow:
+    inset 0 0 0 1px rgba(250, 204, 21, 0.34),
+    0 10px 22px rgba(0, 0, 0, 0.32);
+}
+
+.app-dark .bg-white {
+  background-color: #18181b !important;
+}
+
+.app-dark .bg-neutral-100 {
+  background-color: #09090b !important;
+}
+
+.app-dark .bg-zinc-50,
+.app-dark .bg-zinc-100 {
+  background-color: #27272a !important;
+}
+
+.app-dark .bg-zinc-200 {
+  background-color: #3f3f46 !important;
+}
+
+.app-dark .bg-amber-50 {
+  background-color: #3b2f12 !important;
+}
+
+.app-dark .bg-rose-50 {
+  background-color: #3b1f29 !important;
+}
+
+.app-dark .border-zinc-100,
+.app-dark .border-zinc-200 {
+  border-color: #3f3f46 !important;
+}
+
+.app-dark .divide-zinc-100 > :not([hidden]) ~ :not([hidden]) {
+  border-color: #3f3f46 !important;
+}
+
+.app-dark .text-zinc-950,
+.app-dark .text-zinc-700,
+.app-dark .text-zinc-600 {
+  color: #f4f4f5 !important;
+}
+
+.app-dark .text-zinc-500,
+.app-dark .text-zinc-300 {
+  color: #a1a1aa !important;
+}
+
+.app-dark input {
+  background-color: #18181b;
+  color: #f4f4f5;
+}
+
+.app-dark input::placeholder {
+  color: #71717a;
+}
+
+.app-dark .shadow-sm {
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28) !important;
+}
+
+.app-dark section.rounded-lg {
+  border-color: rgba(63, 63, 70, 0.9) !important;
+  background-color: rgba(24, 24, 27, 0.82) !important;
+  box-shadow:
+    0 18px 45px rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+}
+
+.app-dark section.rounded-lg:hover {
+  border-color: rgba(250, 204, 21, 0.42) !important;
+  box-shadow:
+    0 24px 55px rgba(0, 0, 0, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07) !important;
+}
+
+.app-dark .mascot-orb {
+  background: linear-gradient(135deg, rgba(250, 204, 21, 0.38), rgba(39, 39, 42, 0.72));
 }
 
 .paypilot-logo-wrap {
@@ -25,11 +276,14 @@ body {
 
 .paypilot-logo-glow {
   position: absolute;
-  inset: 8px;
+  inset: -10px;
   border-radius: 9999px;
-  background: radial-gradient(circle, rgba(250, 204, 21, 0.42), transparent 68%);
-  filter: blur(14px);
-  animation: paypilot-pulse 2.4s ease-in-out infinite;
+  background:
+    radial-gradient(circle, rgba(250, 204, 21, 0.42) 0 34%, transparent 66%),
+    conic-gradient(from 120deg, transparent 0 20%, rgba(250, 204, 21, 0.3) 34%, transparent 50% 100%);
+  filter: blur(12px);
+  opacity: 0.85;
+  animation: paypilot-pulse 3s ease-in-out infinite;
 }
 
 .paypilot-logo {
@@ -43,24 +297,30 @@ body {
 .paypilot-logo-wrap::after {
   content: "";
   position: absolute;
-  top: 12%;
-  width: 12px;
-  height: 32px;
-  border: 4px solid #f8c537;
-  border-top-color: transparent;
-  border-bottom-color: transparent;
+  inset: 4px;
   border-radius: 9999px;
-  opacity: 0.75;
-  animation: paypilot-signal 1.8s ease-in-out infinite;
+  pointer-events: none;
 }
 
 .paypilot-logo-wrap::before {
-  left: -10px;
+  border: 1px solid rgba(250, 204, 21, 0.46);
+  animation: paypilot-halo 2.8s ease-in-out infinite;
 }
 
 .paypilot-logo-wrap::after {
-  right: -10px;
-  animation-delay: 0.18s;
+  inset: -8px;
+  background: conic-gradient(
+    from 35deg,
+    transparent 0 18%,
+    rgba(250, 204, 21, 0.34) 25%,
+    transparent 34% 58%,
+    rgba(245, 158, 11, 0.24) 66%,
+    transparent 76% 100%
+  );
+  -webkit-mask: radial-gradient(circle, transparent 57%, #000 59%, #000 66%, transparent 68%);
+  mask: radial-gradient(circle, transparent 57%, #000 59%, #000 66%, transparent 68%);
+  opacity: 0.78;
+  animation: paypilot-orbit 6s linear infinite;
 }
 
 @keyframes paypilot-float {
@@ -99,15 +359,49 @@ body {
   }
 }
 
-@keyframes paypilot-signal {
+@keyframes paypilot-halo {
   0%,
   100% {
     opacity: 0.35;
+    transform: scale(0.95);
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes paypilot-orbit {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes mascot-breathe {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    transform: translateY(-3px) scale(1.03);
+  }
+}
+
+@keyframes mascot-glow {
+  0%,
+  100% {
+    opacity: 0.45;
     transform: scale(0.92);
   }
 
   50% {
-    opacity: 0.95;
+    opacity: 0.9;
     transform: scale(1.08);
   }
 }

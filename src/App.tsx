@@ -1,6 +1,6 @@
 import {
-  ArrowDownLeft,
   ArrowUpRight,
+  Banknote,
   Bell,
   ChevronRight,
   CreditCard,
@@ -11,6 +11,7 @@ import {
   MoreHorizontal,
   Plus,
   PiggyBank,
+  ReceiptText,
   Settings,
   ShieldCheck,
   Wallet,
@@ -20,14 +21,15 @@ import paypilotLogo from './assets/paypilot-logo.png';
 
 function App() {
   const currentPath = window.location.pathname;
+  const [darkMode, setDarkMode] = useState(() => localStorage.getItem('paypilot-dark-mode') === 'true');
 
   const spending = [
     { label: '식비', used: '₩310,000', budget: '₩360,000', remaining: '₩50,000', percent: 86, color: 'bg-rose-400', status: '주의' },
     { label: '교통', used: '₩75,000', budget: '₩100,000', remaining: '₩25,000', percent: 75, color: 'bg-sky-500', status: '안정' },
-    { label: '카페', used: '₩68,000', budget: '₩90,000', remaining: '₩22,000', percent: 76, color: 'bg-sky-500', status: '관리' },
+    { label: '카페', used: '₩68,000', budget: '₩90,000', remaining: '₩22,000', percent: 76, color: 'bg-fuchsia-500', status: '관리' },
     { label: '쇼핑', used: '₩120,000', budget: '₩150,000', remaining: '₩30,000', percent: 80, color: 'bg-amber-400', status: '관리' },
     { label: '구독', used: '₩37,000', budget: '₩50,000', remaining: '₩13,000', percent: 74, color: 'bg-violet-500', status: '안정' },
-    { label: '생활', used: '₩110,000', budget: '₩100,000', remaining: '-₩10,000', percent: 100, color: 'bg-rose-500', status: '초과' },
+    { label: '생활', used: '₩110,000', budget: '₩100,000', remaining: '-₩10,000', percent: 100, color: 'bg-zinc-700', status: '초과' },
   ];
 
   const navLinkClass = (path: string) =>
@@ -56,18 +58,15 @@ function App() {
           ? '앱 환경 관리'
           : '오늘의 자산 리포트';
 
-  return (
-    <main className="min-h-screen bg-neutral-100 text-zinc-950">
-      <div className="mx-auto flex min-h-screen max-w-7xl">
-        <aside className="hidden w-20 shrink-0 flex-col items-center border-r border-zinc-200 bg-white py-6 lg:flex">
-          <a
-            href="/"
-            className="mb-10 flex h-11 w-11 items-center justify-center rounded-lg bg-zinc-950 text-lg font-bold text-white"
-            aria-label="홈으로 이동"
-          >
-            h
-          </a>
+  const handleDarkModeChange = (enabled: boolean) => {
+    setDarkMode(enabled);
+    localStorage.setItem('paypilot-dark-mode', String(enabled));
+  };
 
+  return (
+    <main className={`app-shell min-h-screen bg-neutral-100 text-zinc-950 ${darkMode ? 'app-dark' : ''}`}>
+      <div className="mx-auto flex min-h-screen max-w-7xl">
+        <aside className="app-sidebar hidden w-20 shrink-0 flex-col items-center border-r border-zinc-200 bg-white py-6 lg:flex">
           <nav className="flex flex-1 flex-col gap-4">
             <a href="/" className={navLinkClass('/')} aria-label="홈">
               <Home className="h-5 w-5" />
@@ -84,8 +83,8 @@ function App() {
           </nav>
         </aside>
 
-        <section className="flex-1 px-5 py-5 sm:px-8 lg:px-10">
-          <header className="mb-8 flex items-center justify-between">
+        <section className="relative z-10 flex-1 px-5 py-5 sm:px-8 lg:px-10">
+          <header className="app-header mb-8 flex items-center justify-between">
             <div className="flex items-center gap-5">
               <div className="paypilot-logo-wrap">
                 <span className="paypilot-logo-glow" />
@@ -113,7 +112,7 @@ function App() {
           ) : currentPath === '/analytics' ? (
             <AnalyticsPage />
           ) : currentPath === '/settings' ? (
-            <SettingsPage />
+            <SettingsPage darkMode={darkMode} onDarkModeChange={handleDarkModeChange} />
           ) : (
             <DashboardPage spending={spending} />
           )}
@@ -183,8 +182,8 @@ function DashboardPage({
             <Wallet className="h-6 w-6 text-zinc-700" />
           </div>
           <div className="mt-8 grid grid-cols-2 gap-3">
-            <SummaryBox icon={<ArrowDownLeft className="h-5 w-5 text-amber-600" />} label="수입" value="₩950,000" tone="amber" interactive />
-            <SummaryBox icon={<ArrowUpRight className="h-5 w-5 text-rose-500" />} label="지출" value="₩720,000" tone="rose" interactive />
+            <SummaryBox icon={<Banknote className="h-5 w-5 text-amber-600" />} label="수입" value="₩950,000" tone="amber" interactive />
+            <SummaryBox icon={<ReceiptText className="h-5 w-5 text-rose-500" />} label="지출" value="₩720,000" tone="rose" interactive />
           </div>
         </section>
       </div>
@@ -195,9 +194,12 @@ function DashboardPage({
             <p className="text-sm font-medium text-zinc-500">AI 소비 점수</p>
             <h2 className="mt-1 text-2xl font-semibold">지출 관리가 안정적이에요</h2>
           </div>
-          <div className="rounded-lg bg-zinc-950 px-4 py-3 text-right text-white">
-            <p className="text-xs text-zinc-300">Score</p>
-            <p className="text-2xl font-semibold">82</p>
+          <div className="mascot-score-card flex items-center gap-3 rounded-lg bg-zinc-950 px-4 py-3 text-white">
+            <img src={paypilotLogo} alt="" className="mascot-mini h-12 w-12 rounded-full object-cover" />
+            <div className="text-right">
+              <p className="text-xs text-zinc-300">Score</p>
+              <p className="text-2xl font-semibold">82</p>
+            </div>
           </div>
         </div>
 
@@ -287,13 +289,18 @@ function DashboardPage({
         </section>
 
         <section className="rounded-lg border border-zinc-200 bg-white p-5 shadow-sm sm:p-7">
-          <div className="flex items-start gap-3">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-zinc-950 text-white">
-              <PiggyBank className="h-5 w-5" />
+          <div className="flex items-start justify-between gap-4">
+            <div className="flex items-start gap-3">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-zinc-950 text-white">
+                <PiggyBank className="h-5 w-5" />
+              </div>
+              <div>
+                <p className="text-sm text-zinc-500">저축 목표</p>
+                <h2 className="text-xl font-semibold">목표 항목 관리</h2>
+              </div>
             </div>
-            <div>
-              <p className="text-sm text-zinc-500">저축 목표</p>
-              <h2 className="text-xl font-semibold">목표 항목 관리</h2>
+            <div className="mascot-orb hidden sm:block">
+              <img src={paypilotLogo} alt="" className="h-14 w-14 rounded-full object-cover" />
             </div>
           </div>
 
@@ -610,15 +617,33 @@ function AnalyticsPage() {
     </div>
   );
 }
-function SettingsPage() {
+function SettingsPage({
+  darkMode,
+  onDarkModeChange,
+}: {
+  darkMode: boolean;
+  onDarkModeChange: (enabled: boolean) => void;
+}) {
+  const settings = ['알림 받기', '월 예산 자동 계산', '다크 모드', '데이터 백업'];
+
   return (
     <section className="rounded-lg border border-zinc-200 bg-white p-6 shadow-sm">
       <h2 className="text-xl font-semibold">앱 설정</h2>
       <div className="mt-6 divide-y divide-zinc-100">
-        {['알림 받기', '월 예산 자동 계산', '다크 모드', '데이터 백업'].map((label) => (
+        {settings.map((label) => (
           <label key={label} className="flex items-center justify-between py-4">
             <span className="font-medium">{label}</span>
-            <input type="checkbox" className="h-5 w-5 accent-zinc-950" defaultChecked={label !== '다크 모드'} />
+            <input
+              type="checkbox"
+              className="h-5 w-5 accent-amber-400"
+              checked={label === '다크 모드' ? darkMode : label !== '다크 모드'}
+              onChange={(event) => {
+                if (label === '다크 모드') {
+                  onDarkModeChange(event.target.checked);
+                }
+              }}
+              readOnly={label !== '다크 모드'}
+            />
           </label>
         ))}
       </div>
