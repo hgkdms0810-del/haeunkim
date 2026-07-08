@@ -107,7 +107,7 @@ function App() {
         </aside>
 
         <section className="relative z-10 flex-1 px-5 py-5 sm:px-8 lg:px-10">
-          <header className="app-header mb-8 flex items-center justify-between">
+          <header className="app-header relative z-50 mb-8 flex items-center justify-between">
             <div className="flex items-center gap-5">
               <div className="paypilot-logo-wrap">
                 <span className="paypilot-logo-glow" />
@@ -134,7 +134,7 @@ function App() {
               </button>
 
               {isNotificationsOpen ? (
-                <div className="notification-panel absolute right-0 top-14 z-30 w-[min(22rem,calc(100vw-2rem))] rounded-lg border border-zinc-200 bg-white p-4 shadow-xl">
+                <div className="notification-panel absolute right-0 top-14 z-[100] w-[min(22rem,calc(100vw-2rem))] rounded-lg border border-zinc-200 bg-white p-4 shadow-xl">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-sm font-medium text-zinc-500">새 알림</p>

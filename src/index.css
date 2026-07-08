@@ -60,6 +60,8 @@ body {
 }
 
 .app-header {
+  position: relative;
+  z-index: 50;
   border: 1px solid rgba(228, 228, 231, 0.72);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.54);
@@ -111,6 +113,7 @@ body {
 }
 
 .notification-panel {
+  z-index: 100;
   backdrop-filter: blur(18px);
   box-shadow:
     0 24px 55px rgba(24, 24, 27, 0.16),
