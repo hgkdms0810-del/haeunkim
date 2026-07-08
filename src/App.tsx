@@ -17,6 +17,7 @@ import {
   Wallet,
 } from 'lucide-react';
 import { useState } from 'react';
+import { supabase } from './lib/supabase';
 import paypilotLogo from './assets/paypilot-logo.png';
 
 function App() {
@@ -625,29 +626,88 @@ function SettingsPage({
   onDarkModeChange: (enabled: boolean) => void;
 }) {
   const settings = ['알림 받기', '월 예산 자동 계산', '다크 모드', '데이터 백업'];
+  const [testInput, setTestInput] = useState('테스트 중입니다.');
+  const [saveStatus, setSaveStatus] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
+
+  const handleSaveTestInput = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const inputText = testInput.trim();
+
+    if (!inputText) {
+      setSaveStatus('저장할 내용을 입력해 주세요.');
+      return;
+    }
+
+    setIsSaving(true);
+    setSaveStatus('');
+
+    const { error } = await supabase.from('input_db').insert({
+      input_text: inputText,
+    });
+
+    if (error) {
+      setSaveStatus(`저장 실패: ${error.message}`);
+    } else {
+      setSaveStatus('Supabase에 저장됐어요. Table Editor에서 확인해 보세요.');
+      setTestInput('');
+    }
+
+    setIsSaving(false);
+  };
 
   return (
-    <section className="rounded-lg border border-zinc-200 bg-white p-6 shadow-sm">
-      <h2 className="text-xl font-semibold">앱 설정</h2>
-      <div className="mt-6 divide-y divide-zinc-100">
-        {settings.map((label) => (
-          <label key={label} className="flex items-center justify-between py-4">
-            <span className="font-medium">{label}</span>
-            <input
-              type="checkbox"
-              className="h-5 w-5 accent-amber-400"
-              checked={label === '다크 모드' ? darkMode : label !== '다크 모드'}
-              onChange={(event) => {
-                if (label === '다크 모드') {
-                  onDarkModeChange(event.target.checked);
-                }
-              }}
-              readOnly={label !== '다크 모드'}
-            />
-          </label>
-        ))}
-      </div>
-    </section>
+    <div className="space-y-5">
+      <section className="rounded-lg border border-zinc-200 bg-white p-6 shadow-sm">
+        <h2 className="text-xl font-semibold">앱 설정</h2>
+        <div className="mt-6 divide-y divide-zinc-100">
+          {settings.map((label) => (
+            <label key={label} className="flex items-center justify-between py-4">
+              <span className="font-medium">{label}</span>
+              <input
+                type="checkbox"
+                className="h-5 w-5 accent-amber-400"
+                checked={label === '다크 모드' ? darkMode : label !== '다크 모드'}
+                onChange={(event) => {
+                  if (label === '다크 모드') {
+                    onDarkModeChange(event.target.checked);
+                  }
+                }}
+                readOnly={label !== '다크 모드'}
+              />
+            </label>
+          ))}
+        </div>
+      </section>
+
+      <section className="rounded-lg border border-zinc-200 bg-white p-6 shadow-sm">
+        <div>
+          <p className="text-sm font-medium text-zinc-500">Supabase 연결 테스트</p>
+          <h2 className="mt-1 text-xl font-semibold">데이터 저장 확인</h2>
+        </div>
+
+        <form className="mt-6 grid gap-3" onSubmit={handleSaveTestInput}>
+          <input
+            className="h-11 rounded-lg border border-zinc-200 bg-white px-3 text-sm outline-none transition focus:border-amber-400 focus:ring-2 focus:ring-amber-100"
+            value={testInput}
+            onChange={(event) => setTestInput(event.target.value)}
+            placeholder="Supabase에 저장할 테스트 문장"
+          />
+          <button
+            className="inline-flex h-11 items-center justify-center rounded-lg bg-zinc-950 px-4 text-sm font-semibold text-white transition hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-60"
+            disabled={isSaving}
+          >
+            {isSaving ? '저장 중...' : 'Supabase에 저장'}
+          </button>
+        </form>
+
+        {saveStatus ? <p className="mt-4 text-sm leading-6 text-zinc-500">{saveStatus}</p> : null}
+        <p className="mt-4 text-xs leading-5 text-zinc-500">
+          Supabase Table Editor에서 input_db 테이블을 열면 방금 저장한 input_text 값을 확인할 수 있어요.
+        </p>
+      </section>
+    </div>
   );
 }
 
