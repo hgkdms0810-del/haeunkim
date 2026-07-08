@@ -60,6 +60,13 @@ function App() {
           ? '앱 환경 관리'
           : '오늘의 자산 리포트';
 
+  const isDashboard = currentPath === '/';
+  const heroTitle = isDashboard ? '하은님의 머니 리포트' : pageTitle;
+  const dashboardHeaderStats = [
+    { label: '이번 달 잔여', value: '₩130,000' },
+    { label: '관리 점수', value: '82/100' },
+  ];
+
   const handleDarkModeChange = (enabled: boolean) => {
     setDarkMode(enabled);
     localStorage.setItem('paypilot-dark-mode', String(enabled));
@@ -107,8 +114,8 @@ function App() {
         </aside>
 
         <section className="relative z-10 flex-1 px-5 py-5 sm:px-8 lg:px-10">
-          <header className="app-header relative z-50 mb-8 flex items-center justify-between">
-            <div className="flex items-center gap-5">
+          <header className="app-header relative z-50 mb-8 flex flex-wrap items-center justify-between gap-5">
+            <div className="flex min-w-0 items-center gap-5">
               <div className="paypilot-logo-wrap">
                 <span className="paypilot-logo-glow" />
                 <img
@@ -117,57 +124,86 @@ function App() {
                   className="paypilot-logo h-20 w-20 rounded-full object-cover shadow-lg ring-2 ring-white sm:h-24 sm:w-24 lg:h-28 lg:w-28"
                 />
               </div>
-              <div>
-                <p className="text-sm font-medium text-zinc-500">{pageLabel}</p>
-                <h1 className="mt-1 text-2xl font-semibold sm:text-3xl">{pageTitle}</h1>
+              <div className="min-w-0">
+                <div className="flex flex-wrap items-center gap-2">
+                  <p className="text-sm font-medium text-zinc-500">{pageLabel}</p>
+                  {isDashboard ? (
+                    <span className="dashboard-live-badge rounded-full px-2.5 py-1 text-xs font-semibold">
+                      Live finance brief
+                    </span>
+                  ) : null}
+                </div>
+                <h1 className="dashboard-title mt-1 text-2xl font-semibold sm:text-3xl">{heroTitle}</h1>
+                {isDashboard ? (
+                  <p className="mt-2 max-w-xl text-sm leading-6 text-zinc-500">
+                    수입, 지출, 예산 흐름을 한눈에 정리한 오늘의 개인 금융 요약입니다.
+                  </p>
+                ) : null}
               </div>
             </div>
-            <div className="relative">
-              <button
-                className="relative flex h-11 w-11 items-center justify-center rounded-lg border border-zinc-200 bg-white text-zinc-700 shadow-sm"
-                aria-label="알림"
-                aria-expanded={isNotificationsOpen}
-                onClick={() => setIsNotificationsOpen((isOpen) => !isOpen)}
-              >
-                <Bell className="h-5 w-5" />
-                <span className="absolute right-2 top-2 h-2.5 w-2.5 rounded-full bg-amber-400 ring-2 ring-white" />
-              </button>
-
-              {isNotificationsOpen ? (
-                <div className="notification-panel absolute right-0 top-14 z-[100] w-[min(22rem,calc(100vw-2rem))] rounded-lg border border-zinc-200 bg-white p-4 shadow-xl">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm font-medium text-zinc-500">새 알림</p>
-                      <h2 className="text-lg font-semibold">오늘의 알림</h2>
+            <div className="flex items-center gap-3">
+              {isDashboard ? (
+                <div className="dashboard-header-metrics hidden items-center gap-2 xl:flex">
+                  {dashboardHeaderStats.map((item) => (
+                    <div key={item.label} className="dashboard-header-metric">
+                      <span>{item.label}</span>
+                      <strong>{item.value}</strong>
                     </div>
-                    <span className="rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-700">
-                      {notifications.length}
-                    </span>
-                  </div>
-
-                  <div className="mt-4 space-y-3">
-                    {notifications.map((item) => (
-                      <div key={item.title} className="rounded-lg bg-zinc-50 p-3">
-                        <div className="flex items-start gap-3">
-                          <span
-                            className={[
-                              'mt-1 h-2.5 w-2.5 shrink-0 rounded-full',
-                              item.tone === 'amber' ? 'bg-amber-400' : item.tone === 'rose' ? 'bg-rose-400' : 'bg-zinc-500',
-                            ].join(' ')}
-                          />
-                          <div>
-                            <div className="flex flex-wrap items-center gap-2">
-                              <p className="font-semibold">{item.title}</p>
-                              <span className="text-xs text-zinc-500">{item.time}</span>
-                            </div>
-                            <p className="mt-1 text-sm leading-6 text-zinc-500">{item.body}</p>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                  ))}
                 </div>
               ) : null}
+
+              <div className="relative">
+                <button
+                  className="relative flex h-11 w-11 items-center justify-center rounded-lg border border-zinc-200 bg-white text-zinc-700 shadow-sm"
+                  aria-label="알림"
+                  aria-expanded={isNotificationsOpen}
+                  onClick={() => setIsNotificationsOpen((isOpen) => !isOpen)}
+                >
+                  <Bell className="h-5 w-5" />
+                  <span className="absolute right-2 top-2 h-2.5 w-2.5 rounded-full bg-amber-400 ring-2 ring-white" />
+                </button>
+
+                {isNotificationsOpen ? (
+                  <div className="notification-panel absolute right-0 top-14 z-[100] w-[min(22rem,calc(100vw-2rem))] rounded-lg border border-zinc-200 bg-white p-4 shadow-xl">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm font-medium text-zinc-500">새 알림</p>
+                        <h2 className="text-lg font-semibold">오늘의 알림</h2>
+                      </div>
+                      <span className="rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-700">
+                        {notifications.length}
+                      </span>
+                    </div>
+
+                    <div className="mt-4 space-y-3">
+                      {notifications.map((item) => (
+                        <div key={item.title} className="rounded-lg bg-zinc-50 p-3">
+                          <div className="flex items-start gap-3">
+                            <span
+                              className={[
+                                'mt-1 h-2.5 w-2.5 shrink-0 rounded-full',
+                                item.tone === 'amber'
+                                  ? 'bg-amber-400'
+                                  : item.tone === 'rose'
+                                    ? 'bg-rose-400'
+                                    : 'bg-zinc-500',
+                              ].join(' ')}
+                            />
+                            <div>
+                              <div className="flex flex-wrap items-center gap-2">
+                                <p className="font-semibold">{item.title}</p>
+                                <span className="text-xs text-zinc-500">{item.time}</span>
+                              </div>
+                              <p className="mt-1 text-sm leading-6 text-zinc-500">{item.body}</p>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
+              </div>
             </div>
           </header>
 
