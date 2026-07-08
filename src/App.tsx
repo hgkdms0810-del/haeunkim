@@ -61,7 +61,7 @@ function App() {
           : '오늘의 자산 리포트';
 
   const isDashboard = currentPath === '/';
-  const heroTitle = isDashboard ? '하은님의 머니 리포트' : pageTitle;
+  const heroTitle = isDashboard ? '머니 인사이트 리포트' : pageTitle;
   const dashboardHeaderStats = [
     { label: '이번 달 잔여', value: '₩130,000' },
     { label: '관리 점수', value: '82/100' },
