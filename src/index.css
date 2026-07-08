@@ -110,6 +110,13 @@ body {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.62);
 }
 
+.notification-panel {
+  backdrop-filter: blur(18px);
+  box-shadow:
+    0 24px 55px rgba(24, 24, 27, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72);
+}
+
 .mascot-score-card {
   position: relative;
   overflow: hidden;
@@ -265,6 +272,14 @@ body {
 
 .app-dark .mascot-orb {
   background: linear-gradient(135deg, rgba(250, 204, 21, 0.38), rgba(39, 39, 42, 0.72));
+}
+
+.app-dark .notification-panel {
+  background-color: rgba(24, 24, 27, 0.96) !important;
+  border-color: #3f3f46 !important;
+  box-shadow:
+    0 24px 55px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 .paypilot-logo-wrap {

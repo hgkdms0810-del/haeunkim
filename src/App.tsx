@@ -23,6 +23,7 @@ import paypilotLogo from './assets/paypilot-logo.png';
 function App() {
   const currentPath = window.location.pathname;
   const [darkMode, setDarkMode] = useState(() => localStorage.getItem('paypilot-dark-mode') === 'true');
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
 
   const spending = [
     { label: '식비', used: '₩310,000', budget: '₩360,000', remaining: '₩50,000', percent: 86, color: 'bg-rose-400', status: '주의' },
@@ -64,6 +65,27 @@ function App() {
     localStorage.setItem('paypilot-dark-mode', String(enabled));
   };
 
+  const notifications = [
+    {
+      title: '예산 알림',
+      body: '생활비 예산을 1만원 초과했어요. 다음 주 지출을 조금 줄이면 균형을 맞출 수 있어요.',
+      time: '방금 전',
+      tone: 'amber',
+    },
+    {
+      title: '저축 목표',
+      body: '여행 자금 목표가 76%까지 채워졌어요. 목표까지 120만원 남았습니다.',
+      time: '오늘 09:20',
+      tone: 'zinc',
+    },
+    {
+      title: '카드 승인',
+      body: '카페서울숲에서 6,800원이 승인됐어요.',
+      time: '오늘 12:42',
+      tone: 'rose',
+    },
+  ];
+
   return (
     <main className={`app-shell min-h-screen bg-neutral-100 text-zinc-950 ${darkMode ? 'app-dark' : ''}`}>
       <div className="mx-auto flex min-h-screen max-w-7xl">
@@ -100,12 +122,53 @@ function App() {
                 <h1 className="mt-1 text-2xl font-semibold sm:text-3xl">{pageTitle}</h1>
               </div>
             </div>
-            <button
-              className="flex h-11 w-11 items-center justify-center rounded-lg border border-zinc-200 bg-white text-zinc-700 shadow-sm"
-              aria-label="알림"
-            >
-              <Bell className="h-5 w-5" />
-            </button>
+            <div className="relative">
+              <button
+                className="relative flex h-11 w-11 items-center justify-center rounded-lg border border-zinc-200 bg-white text-zinc-700 shadow-sm"
+                aria-label="알림"
+                aria-expanded={isNotificationsOpen}
+                onClick={() => setIsNotificationsOpen((isOpen) => !isOpen)}
+              >
+                <Bell className="h-5 w-5" />
+                <span className="absolute right-2 top-2 h-2.5 w-2.5 rounded-full bg-amber-400 ring-2 ring-white" />
+              </button>
+
+              {isNotificationsOpen ? (
+                <div className="notification-panel absolute right-0 top-14 z-30 w-[min(22rem,calc(100vw-2rem))] rounded-lg border border-zinc-200 bg-white p-4 shadow-xl">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-zinc-500">새 알림</p>
+                      <h2 className="text-lg font-semibold">오늘의 알림</h2>
+                    </div>
+                    <span className="rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-700">
+                      {notifications.length}
+                    </span>
+                  </div>
+
+                  <div className="mt-4 space-y-3">
+                    {notifications.map((item) => (
+                      <div key={item.title} className="rounded-lg bg-zinc-50 p-3">
+                        <div className="flex items-start gap-3">
+                          <span
+                            className={[
+                              'mt-1 h-2.5 w-2.5 shrink-0 rounded-full',
+                              item.tone === 'amber' ? 'bg-amber-400' : item.tone === 'rose' ? 'bg-rose-400' : 'bg-zinc-500',
+                            ].join(' ')}
+                          />
+                          <div>
+                            <div className="flex flex-wrap items-center gap-2">
+                              <p className="font-semibold">{item.title}</p>
+                              <span className="text-xs text-zinc-500">{item.time}</span>
+                            </div>
+                            <p className="mt-1 text-sm leading-6 text-zinc-500">{item.body}</p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+            </div>
           </header>
 
           {currentPath === '/cards' ? (
