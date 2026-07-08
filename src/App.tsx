@@ -515,9 +515,9 @@ function AnalyticsPage() {
     { name: '식비', amount: '₩310,000', percent: 86, color: 'from-rose-400 to-orange-300' },
     { name: '쇼핑', amount: '₩120,000', percent: 80, color: 'from-amber-300 to-yellow-200' },
     { name: '생활', amount: '₩110,000', percent: 100, color: 'from-zinc-500 to-zinc-800' },
-    { name: '교통', amount: '₩75,000', percent: 75, color: 'from-amber-300 to-yellow-200' },
-    { name: '카페', amount: '₩68,000', percent: 76, color: 'from-sky-400 to-cyan-300' },
-    { name: '구독', amount: '₩37,000', percent: 74, color: 'from-violet-400 to-fuchsia-300' },
+    { name: '교통', amount: '₩75,000', percent: 75, color: 'from-blue-400 to-indigo-300' },
+    { name: '카페', amount: '₩68,000', percent: 76, color: 'from-cyan-400 to-teal-300' },
+    { name: '구독', amount: '₩37,000', percent: 74, color: 'from-violet-400 to-purple-300' },
   ];
 
   const weekly = [
